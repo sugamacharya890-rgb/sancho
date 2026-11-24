@@ -84,3 +84,26 @@ npx remotion ffmpeg -y -i public/audio/sancho-chasing-vo.wav -af loudnorm=I=-16:
 npx remotion render src/index.ts SanchoChasingVideo out/sancho-chasing.mp4 --codec=h264 --crf=16
 npx remotion render src/index.ts SanchoChasingVideoMaleVO out/sancho-chasing-male-vo.mp4 --codec=h264 --crf=16
 ```
+
+### Nepali voiceover (नेपाली)
+
+`SanchoChasingVideoNepaliVO` uses `public/audio/sancho-chasing-vo-ne.mp3`, synthesized offline with **Piper**
+(`ne_NP-chitwan-medium`, dataset CC0) from a natural Nepali adaptation of the narration:
+
+| Time | Nepali | English source |
+|---|---|---|
+| 0:00 | आमाबुबा नेपालमा हुनुहुन्छ भने, डाक्टरले के भन्नुभयो भनेर थाहा पाउन जासुसी गरेझैं गर्नु नपरोस्। | …finding out what the doctor said shouldn't feel like detective work. |
+| 0:05.6 | प्रस्तुत छ, सन्चो। | Meet Sancho. |
+| 0:07 | आमाबुबालाई बारम्बार सोधिरहनु नपरी, व्यावसायिक हेरचाह प्रक्रियामार्फत सधैं जानकारीमा रहनुहोस्। | Stay informed through a professional care process, without chasing your parents for answers. |
+| 0:12.6 | हरेक अपडेटको पछाडि, सन्चोको प्रणालीले निरन्तर हेरचाहको पूरा ख्याल राख्छ, ताकि कुनै पनि महत्त्वपूर्ण कुरा नछुटोस्। | Behind every update, Sancho's system stays on top of ongoing care, so nothing important slips. |
+| 0:18.7 | जहाँबाट पनि, ढुक्क भएर जानकारीमा रहनुहोस्। | Stay informed with calm confidence, from anywhere. |
+| 0:21.7 | आजै सन्चो डाउनलोड गर्नुहोस्। | Download Sancho now. |
+
+Regenerate (needs `pip install "piper-tts>=1.5" soundfile` and the voice from
+[rhasspy/piper-voices](https://huggingface.co/rhasspy/piper-voices/tree/main/ne/ne_NP/chitwan/medium)):
+
+```bash
+python scripts/generate_voiceover_ne.py /path/to/piper-voices-dir --voice chitwan --timing src/chasing/voiceoverTimingNe.ts
+npx remotion ffmpeg -y -i public/audio/sancho-chasing-vo-ne.wav -af loudnorm=I=-16:TP=-1.5:LRA=7 -ar 44100 -c:a libmp3lame -b:a 192k -f mp3 public/audio/sancho-chasing-vo-ne.mp3
+npx remotion render src/index.ts SanchoChasingVideoNepaliVO out/sancho-chasing-nepali-vo.mp4 --codec=h264 --crf=16
+```

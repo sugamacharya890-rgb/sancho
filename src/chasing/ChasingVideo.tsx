@@ -13,6 +13,8 @@ export type ChasingVideoProps = {
   bgm?: string;
   /** Voiceover in public/ (Script 02 narration). Pass null for a music-only cut. */
   voiceover?: string | null;
+  /** Speech spans (seconds) for that voiceover — drive the music ducking. */
+  voSpans?: [number, number][];
 };
 
 const FPS = 30;
@@ -23,9 +25,9 @@ const DUCK = 0.3;
 const RAMP = 6;
 
 /** 1 between lines, DUCK under speech — smooth ramps so the music breathes in the gaps. */
-const duckAt = (f: number) => {
+const duckAt = (f: number, spans: [number, number][]) => {
   let g = 1;
-  for (const [s, e] of VO_SPANS) {
+  for (const [s, e] of spans) {
     const a = s * FPS;
     const b = e * FPS;
     const inside = interpolate(f, [a - RAMP, a, b, b + RAMP * 2], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
@@ -34,7 +36,11 @@ const duckAt = (f: number) => {
   return g;
 };
 
-export const ChasingVideo: React.FC<ChasingVideoProps> = ({bgm = 'audio/sancho-chasing-bgm.mp3', voiceover = 'audio/sancho-chasing-vo.mp3'}) => (
+export const ChasingVideo: React.FC<ChasingVideoProps> = ({
+  bgm = 'audio/sancho-chasing-bgm.mp3',
+  voiceover = 'audio/sancho-chasing-vo.mp3',
+  voSpans = VO_SPANS,
+}) => (
   <AbsoluteFill style={{background: '#F8FAFC'}}>
     <Sequence from={S.chasing.from} durationInFrames={S.chasing.duration} name="1 · The chasing loop">
       <ChasingLoop />
@@ -52,7 +58,7 @@ export const ChasingVideo: React.FC<ChasingVideoProps> = ({bgm = 'audio/sancho-c
       src={staticFile(bgm)}
       volume={(f) =>
         interpolate(f, [0, 4, S.total - 24, S.total], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'}) *
-        (voiceover ? duckAt(f) : 1)
+        (voiceover ? duckAt(f, voSpans) : 1)
       }
     />
     {voiceover && <Audio src={staticFile(voiceover)} />}

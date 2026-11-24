@@ -2,6 +2,7 @@ import React from 'react';
 import {Composition} from 'remotion';
 import {ChasingVideo} from './chasing/ChasingVideo';
 import {S} from './chasing/timeline';
+import {VO_SPANS_NE} from './chasing/voiceoverTimingNe';
 import {ExplainerVideo} from './ExplainerVideo';
 import {MainVideo} from './MainVideo';
 import {T} from './promo/theme';
@@ -28,6 +29,16 @@ export const RemotionRoot: React.FC = () => (
       id="SanchoChasingVideoMaleVO"
       component={ChasingVideo}
       defaultProps={{voiceover: 'audio/sancho-chasing-vo-male.mp3'}}
+      durationInFrames={S.total}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
+    {/* Nepali voiceover (Piper ne_NP "chitwan", CC0) */}
+    <Composition
+      id="SanchoChasingVideoNepaliVO"
+      component={ChasingVideo}
+      defaultProps={{voiceover: 'audio/sancho-chasing-vo-ne.mp3', voSpans: VO_SPANS_NE}}
       durationInFrames={S.total}
       fps={FPS}
       width={WIDTH}
