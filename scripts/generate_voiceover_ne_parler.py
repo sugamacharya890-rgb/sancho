@@ -31,15 +31,16 @@ QUALITY = "The recording is of very high quality, with the speaker's voice sound
 DUR = 24.0
 
 # start, window end (next line's start), Nepali text, delivery
+# Lines are short enough for this voice's calm pace to fit each scene without rushing.
 LINES = [
-    (0.15, 5.5, "आमाबुबा नेपालमा हुनुहुन्छ भने, डाक्टरले के भन्नुभयो भनेर थाहा पाउन जासुसी गर्नु नपरोस्।",
+    (0.15, 5.5, "टाढा बस्दा, आमाबुबाको खबर बुझ्न जासुसी गर्नु नपरोस्।",
      f"{SPEAKER} speaks in a tired, slightly frustrated tone at a moderate pace, with natural pauses."),
     (5.6, 6.9, "प्रस्तुत छ, सन्चो।",
      f"{SPEAKER} speaks in a bright, excited and warm tone, clearly and a little slowly, with a smile in her voice."),
     # shortened from the earlier long line so it reads calmly instead of rushed
     (7.0, 12.5, "अब बारम्बार सोधिरहनु पर्दैन। हरेक जानकारी, सधैं स्पष्ट।",
      f"{SPEAKER} speaks in a warm, reassuring and calm tone at a slow, relaxed pace, with a clear pause between sentences."),
-    (12.6, 18.6, "हरेक अप्डेटको पछाडि, सन्चोको प्रणालीले हेरचाहको पूरा ख्याल राख्छ, ताकि केही पनि नछुटोस्।",
+    (12.6, 18.6, "हरेक अप्डेटको पछाडि, सन्चोको प्रणालीले हेरचाहलाई निरन्तर अघि बढाइरहन्छ।",
      f"{SPEAKER} speaks in a confident, steady and trustworthy tone at a moderate pace."),
     (18.75, 21.6, "जहाँबाट पनि, ढुक्क भएर जानकारीमा रहनुहोस्।",
      f"{SPEAKER} speaks in a calm, gentle and uplifting tone at a moderate pace."),
@@ -91,7 +92,7 @@ def trim(x, sr, thresh=0.01):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--takes', type=int, default=4)
+    ap.add_argument('--takes', type=int, default=3)
     ap.add_argument('--asr', default='medium', help='faster-whisper model used to score clarity')
     ap.add_argument('--out', default=os.path.join(os.path.dirname(__file__), '..', 'public', 'audio', 'sancho-chasing-vo-ne.wav'))
     ap.add_argument('--timing', default=os.path.join(os.path.dirname(__file__), '..', 'src', 'chasing', 'voiceoverTimingNe.ts'))
