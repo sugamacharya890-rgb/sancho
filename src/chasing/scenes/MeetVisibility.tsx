@@ -7,6 +7,7 @@ import {PointerCursor} from '../../promo/primitives/PointerCursor';
 import {SanchoLogo} from '../../promo/primitives/SanchoLogo';
 import {C, EASE_IO, ease, lerp, pop, rgba} from '../../promo/theme';
 import {FONT_DISPLAY, FONT_UI} from '../../theme/fonts';
+import {useLayout} from '../layout';
 
 const LOGO_AT = 15; // global 180 = 6.0s, on the beat
 const DOCK_AT = 66; // lockup glides up to become the header
@@ -27,11 +28,16 @@ const ROWS: Row[] = [
 const ACTIVE = 2;
 const ROW_H = 100;
 const GAP = 14;
-const FEED_TOP = 236;
-const FEED_W = 900;
+const FEED_TOP_LANDSCAPE = 236;
+const FEED_TOP_VERTICAL = 610;
+const FEED_W_LANDSCAPE = 900;
+const FEED_W_VERTICAL = 960;
 
 export const MeetVisibility: React.FC = () => {
   const frame = useCurrentFrame();
+  const {W, H, pick, vertical} = useLayout();
+  const FEED_TOP = pick(FEED_TOP_LANDSCAPE, FEED_TOP_VERTICAL);
+  const FEED_W = pick(FEED_W_LANDSCAPE, FEED_W_VERTICAL);
   const meet = pop(frame, 0);
   const dock = ease(frame, DOCK_AT, 22, EASE_IO);
   const focus = ease(frame, FOCUS_AT, 16);
@@ -43,10 +49,10 @@ export const MeetVisibility: React.FC = () => {
     <AbsoluteFill>
       <AuraGlow
         blobs={[
-          {x: 960, y: 540, r: 500 + 60 * ease(frame, 0, 30), color: C.teal, alpha: 0.38},
-          {x: 620, y: 760, r: 300, color: C.tealDeep, alpha: 0.14},
-          {x: 1340, y: 330, r: 280, color: C.teal, alpha: 0.2},
-          {x: 960, y: activeTop + 50, r: 280, color: C.teal, alpha: 0.3 * focus},
+          {x: W / 2, y: H / 2, r: 500 + 60 * ease(frame, 0, 30), color: C.teal, alpha: 0.38},
+          {x: pick(620, 260), y: pick(760, 1400), r: 300, color: C.tealDeep, alpha: 0.14},
+          {x: pick(1340, 820), y: pick(330, 520), r: 280, color: C.teal, alpha: 0.2},
+          {x: W / 2, y: activeTop + 50, r: 280, color: C.teal, alpha: 0.3 * focus},
         ]}
       />
       <AbsoluteFill style={{opacity: 1 - exit, transform: `translateX(${-exit * 120}px)`, filter: exit > 0 ? `blur(${exit * 10}px)` : undefined}}>
@@ -56,10 +62,10 @@ export const MeetVisibility: React.FC = () => {
             position: 'absolute',
             left: 0,
             right: 0,
-            top: lerp(540 - 90, 60, dock),
+            top: lerp(H / 2 - 90, pick(60, 300), dock),
             display: 'flex',
             justifyContent: 'center',
-            transform: `scale(${lerp(1, 0.42, dock)})`,
+            transform: `scale(${lerp(pick(1, 0.8), pick(0.42, 0.5), dock)})`,
             transformOrigin: '50% 0%',
           }}
         >
@@ -86,7 +92,7 @@ export const MeetVisibility: React.FC = () => {
         </div>
 
         {/* stacked UI feed with depth-of-field focus */}
-        <div style={{position: 'absolute', left: 960 - FEED_W / 2, top: 0, width: FEED_W, transform: `translateY(${Math.sin(frame / 30) * 4}px)`}}>
+        <div style={{position: 'absolute', left: (W - FEED_W) / 2, top: 0, width: FEED_W, transform: `translateY(${Math.sin(frame / 30) * 4}px)`}}>
           {ROWS.map((r, i) => {
             const inP = pop(frame, FEED_AT + i * 5, 30, 170, 18);
             const active = i === ACTIVE;
@@ -149,11 +155,11 @@ export const MeetVisibility: React.FC = () => {
           })}
         </div>
 
-        <div style={{position: 'absolute', left: 0, right: 0, top: 862, display: 'flex', justifyContent: 'center'}}>
-          <KineticText text={'Clarity *without chasing.*'} start={CALLOUT_AT} size={78} stagger={4} />
+        <div style={{position: 'absolute', left: 0, right: 0, top: pick(862, 1300), display: 'flex', justifyContent: 'center'}}>
+          <KineticText text={vertical ? 'Clarity\n*without chasing.*' : 'Clarity *without chasing.*'} start={CALLOUT_AT} size={pick(78, 88)} stagger={4} />
         </div>
 
-        <PointerCursor from={[1660, 1080]} to={[1240, activeTop + 90]} start={CURSOR_AT} travel={24} clickAt={CLICK_AT} />
+        <PointerCursor from={pick<[number, number]>([1660, 1080], [1000, 1750])} to={[W / 2 + pick(280, 300), activeTop + 90]} start={CURSOR_AT} travel={24} clickAt={CLICK_AT} />
       </AbsoluteFill>
     </AbsoluteFill>
   );

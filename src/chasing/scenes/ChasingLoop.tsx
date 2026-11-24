@@ -4,6 +4,7 @@ import {AuraGlow} from '../../promo/primitives/AuraGlow';
 import {KineticText} from '../../promo/primitives/KineticText';
 import {C, EASE_IO, ease, pop, rgba} from '../../promo/theme';
 import {FONT_UI} from '../../theme/fonts';
+import {useLayout} from '../layout';
 
 /** The same questions, again and again — and the hours between them. */
 const QUESTIONS = [
@@ -73,6 +74,7 @@ const Bubble: React.FC<{q: (typeof QUESTIONS)[number]; i: number}> = ({q, i}) =>
 
 export const ChasingLoop: React.FC = () => {
   const frame = useCurrentFrame();
+  const {pick} = useLayout();
   const shown = QUESTIONS.filter((x) => frame >= x.at).length;
   // the thread scrolls as questions keep piling up
   const scroll = ease(frame, 60, 50, EASE_IO) * ROW * 2;
@@ -84,9 +86,9 @@ export const ChasingLoop: React.FC = () => {
     <AbsoluteFill>
       <AuraGlow
         blobs={[
-          {x: 1260, y: 600, r: 420, color: C.coral, alpha: 0.2 + 0.12 * strain},
-          {x: 640, y: 420, r: 380, color: C.amber, alpha: 0.12 + 0.08 * strain},
-          {x: 960, y: 980, r: 360, color: C.tealDeep, alpha: 0.08},
+          {x: pick(1260, 700), y: pick(600, 1150), r: 420, color: C.coral, alpha: 0.2 + 0.12 * strain},
+          {x: pick(640, 300), y: pick(420, 480), r: 380, color: C.amber, alpha: 0.12 + 0.08 * strain},
+          {x: pick(960, 540), y: pick(980, 1700), r: 360, color: C.tealDeep, alpha: 0.08},
         ]}
       />
       <AbsoluteFill
@@ -97,21 +99,21 @@ export const ChasingLoop: React.FC = () => {
         }}
       >
         {/* headline beats (left column) */}
-        <div style={{position: 'absolute', left: 150, top: 350}}>
-          <KineticText text={'Still texting to\nfind out what\nhappened?'} start={2} exitAt={66} size={96} align="left" stagger={3} />
+        <div style={{position: 'absolute', left: pick(150, 80), top: pick(350, 290)}}>
+          <KineticText text={'Still texting to\nfind out what\nhappened?'} start={2} exitAt={66} size={pick(96, 100)} align="left" stagger={3} />
         </div>
-        <div style={{position: 'absolute', left: 150, top: 390}}>
-          <KineticText text={'Chasing updates\ngets *exhausting.*'} accent={C.coral} start={75} size={96} align="left" stagger={4} />
+        <div style={{position: 'absolute', left: pick(150, 80), top: pick(390, 330)}}>
+          <KineticText text={'Chasing updates\ngets *exhausting.*'} accent={C.coral} start={75} size={pick(96, 100)} align="left" stagger={4} />
         </div>
 
         {/* the thread (right column) */}
         <div
           style={{
             position: 'absolute',
-            right: 150,
-            top: 170,
-            width: 680,
-            height: 760,
+            right: pick(150, 80),
+            top: pick(170, 700),
+            width: pick(680, 920),
+            height: pick(760, 900),
             overflow: 'hidden',
             maskImage: 'linear-gradient(180deg, transparent 0%, black 18%, black 100%)',
             WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, black 18%, black 100%)',

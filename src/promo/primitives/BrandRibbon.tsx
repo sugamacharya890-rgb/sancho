@@ -1,5 +1,5 @@
 import React from 'react';
-import {useCurrentFrame} from 'remotion';
+import {useCurrentFrame, useVideoConfig} from 'remotion';
 import {C, EASE_IO, ease} from '../theme';
 
 /**
@@ -13,13 +13,17 @@ export const BrandRibbon: React.FC<{start: number; duration?: number; exitAt?: n
   width = 150,
 }) => {
   const frame = useCurrentFrame();
+  const {width: W, height: H} = useVideoConfig();
+  // curve authored on a 1920x1080 grid; scaled to the frame so it still sweeps corner to corner
+  const X = (x: number) => (x * W) / 1920;
+  const Y = (y: number) => (y * H) / 1080;
   const head = ease(frame, start, duration, EASE_IO);
   const tail = exitAt === undefined ? 0 : ease(frame, exitAt, duration, EASE_IO);
   const wave = Math.sin(frame / 30) * 24;
-  const d = `M -200 ${980 + wave} C 420 ${1060 - wave}, 520 ${360 + wave}, 1000 ${470 - wave} S 1700 ${80 + wave}, 2140 ${-80 - wave}`;
+  const d = `M ${X(-200)} ${Y(980) + wave} C ${X(420)} ${Y(1060) - wave}, ${X(520)} ${Y(360) + wave}, ${X(1000)} ${Y(470) - wave} S ${X(1700)} ${Y(80) + wave}, ${X(2140)} ${Y(-80) - wave}`;
   // pathLength=1 lets us sweep head and tail along the curve
   return (
-    <svg width={1920} height={1080} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
+    <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
       <defs>
         <linearGradient id="ribbonGrad" x1="0" y1="1" x2="1" y2="0">
           <stop offset="0" stopColor={C.tealDeep} />

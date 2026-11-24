@@ -7,6 +7,7 @@ import {KineticText} from '../../promo/primitives/KineticText';
 import {LOGO_SRC} from '../../promo/primitives/SanchoLogo';
 import {C, EASE_IO, ease, pop, rgba} from '../../promo/theme';
 import {FONT_DISPLAY, FONT_UI} from '../../theme/fonts';
+import {useLayout} from '../layout';
 
 const CARD_AT = 15; // global 390 = 13.0s
 const TAGS_AT = 90; // 0:15.5
@@ -26,6 +27,7 @@ const TRACK_W = 740;
 
 const TimelineCard: React.FC = () => {
   const frame = useCurrentFrame();
+  const {W, pick} = useLayout();
   const s = pop(frame, CARD_AT, 30, 150, 16);
   const float = Math.sin(frame / 22) * 6;
   const out = ease(frame, 168, 12, EASE_IO);
@@ -37,8 +39,8 @@ const TimelineCard: React.FC = () => {
     <div
       style={{
         position: 'absolute',
-        left: 960 - CARD_W / 2,
-        top: 395,
+        left: (W - CARD_W) / 2,
+        top: pick(395, 690),
         width: CARD_W,
         height: 380,
         boxSizing: 'border-box',
@@ -47,7 +49,7 @@ const TimelineCard: React.FC = () => {
         background: C.white,
         boxShadow: `0 40px 90px ${rgba(C.tealDeep, 0.22)}, 0 10px 30px ${rgba(C.ink, 0.08)}`,
         opacity: Math.min(1, s * 1.4) * (1 - out),
-        transform: `translateY(${(1 - s) * 120 + float - out * 40}px) rotate(${(1 - s) * 3 + Math.sin(frame / 40) * 0.4}deg) scale(${0.9 + 0.1 * s})`,
+        transform: `translateY(${(1 - s) * 120 + float - out * 40}px) rotate(${(1 - s) * 3 + Math.sin(frame / 40) * 0.4}deg) scale(${(0.9 + 0.1 * s) * pick(1, 0.96)})`,
         filter: s < 0.97 || out > 0 ? `blur(${(1 - Math.min(1, s)) * 10 + out * 10}px)` : undefined,
         fontFamily: FONT_UI,
       }}
@@ -128,6 +130,7 @@ const TimelineCard: React.FC = () => {
 
 const SideTag: React.FC<{text: string; side: 'left' | 'right'; at: number}> = ({text, side, at}) => {
   const frame = useCurrentFrame();
+  const {vertical} = useLayout();
   const s = pop(frame, at, 30, 200, 15);
   const out = ease(frame, 166, 12, EASE_IO);
   const dir = side === 'left' ? -1 : 1;
@@ -135,11 +138,11 @@ const SideTag: React.FC<{text: string; side: 'left' | 'right'; at: number}> = ({
     <div
       style={{
         position: 'absolute',
-        top: 870,
-        [side]: side === 'left' ? 960 - 40 - 430 : 960 - 40 - 430,
-        width: 430,
+        // landscape: a pair beneath the card; vertical: stacked and centered
+        ...(vertical
+          ? {top: side === 'left' ? 1150 : 1270, left: 0, right: 0, justifyContent: 'center'}
+          : {top: 870, [side]: 960 - 40 - 430, width: 430, justifyContent: side === 'left' ? 'flex-end' : 'flex-start'}),
         display: 'flex',
-        justifyContent: side === 'left' ? 'flex-end' : 'flex-start',
         opacity: Math.min(1, s * 1.4) * (1 - out),
         transform: `translateX(${(1 - s) * dir * 70}px) translateY(${Math.sin(frame / 18 + (side === 'left' ? 0 : 2)) * 3}px)`,
         filter: s < 0.97 ? `blur(${(1 - Math.min(1, s)) * 8}px)` : undefined,
@@ -170,21 +173,24 @@ const SideTag: React.FC<{text: string; side: 'left' | 'right'; at: number}> = ({
   );
 };
 
-export const FollowThroughBehind: React.FC = () => (
+export const FollowThroughBehind: React.FC = () => {
+  const {W, pick} = useLayout();
+  return (
   <AbsoluteFill>
     <AuraGlow
       blobs={[
-        {x: 960, y: 600, r: 520, color: C.teal, alpha: 0.4},
-        {x: 520, y: 320, r: 300, color: C.tealDeep, alpha: 0.14},
-        {x: 1420, y: 820, r: 320, color: C.teal, alpha: 0.2},
+        {x: W / 2, y: pick(600, 900), r: 520, color: C.teal, alpha: 0.4},
+        {x: pick(520, 240), y: pick(320, 420), r: 300, color: C.tealDeep, alpha: 0.14},
+        {x: pick(1420, 860), y: pick(820, 1400), r: 320, color: C.teal, alpha: 0.2},
       ]}
     />
     <BrandRibbon start={0} duration={34} exitAt={150} />
     <TimelineCard />
-    <div style={{position: 'absolute', left: 0, right: 0, top: 110, display: 'flex', justifyContent: 'center'}}>
-      <KineticText text={'Steady follow-through\n*behind the scenes.*'} start={4} exitAt={166} size={88} stagger={3} />
+    <div style={{position: 'absolute', left: 0, right: 0, top: pick(110, 300), display: 'flex', justifyContent: 'center'}}>
+      <KineticText text={'Steady follow-through\n*behind the scenes.*'} start={4} exitAt={166} size={pick(88, 80)} stagger={3} />
     </div>
     <SideTag text="Nothing slips" side="left" at={TAGS_AT} />
     <SideTag text="No micromanaging" side="right" at={TAGS_AT + 5} />
   </AbsoluteFill>
-);
+  );
+};

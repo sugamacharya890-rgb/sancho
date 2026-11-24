@@ -113,3 +113,15 @@ npx remotion render src/index.ts SanchoChasingVideoNepaliVO out/sancho-chasing-n
 ```
 
 The earlier Piper-based generator (`scripts/generate_voiceover_ne.py`) is kept for reference.
+
+## Vertical 9:16 for Instagram Reels / Stories / TikTok
+
+`SanchoChasingVertical` — 1080×1920, 30 fps, 24 s, background music only. The Script 02 scenes are layout-aware
+(`src/chasing/layout.ts`): headlines on top, UI stacked below, key content kept inside the Reels safe zone
+(roughly y 250–1600). The 16:9 compositions are unchanged.
+
+```bash
+npx remotion render src/index.ts SanchoChasingVertical out/sancho-chasing-vertical.mp4 --codec=h264 --crf=17
+# Instagram-safe finish: limited-range yuv420p, BT.709 tags, fast start (needs ffmpeg with libx264)
+ffmpeg -y -i out/sancho-chasing-vertical.mp4 -vf "scale=in_range=full:out_range=limited,format=yuv420p" -c:v libx264 -preset slow -crf 17 -profile:v high -level 4.1 -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 -c:a copy -movflags +faststart out/sancho-chasing-vertical-ig.mp4
+```

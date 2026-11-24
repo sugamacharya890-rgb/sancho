@@ -4,6 +4,7 @@ import {AuraGlow} from '../../promo/primitives/AuraGlow';
 import {SanchoLogo} from '../../promo/primitives/SanchoLogo';
 import {C, EASE, EASE_IO, ease, pop, rgba} from '../../promo/theme';
 import {FONT_DISPLAY, FONT_UI} from '../../theme/fonts';
+import {useLayout} from '../layout';
 
 const PILL_AT = 12;
 const CIRCLE_AT = 75; // 0:21 — global 630, on the beat
@@ -20,6 +21,7 @@ export const DownloadOutro: React.FC<DownloadOutroProps> = ({
   tagline = 'Stay informed with calm confidence.',
 }) => {
   const frame = useCurrentFrame();
+  const {W, H, pick} = useLayout();
   const wipe = ease(frame, 0, 14, EASE_IO);
   const lead = ease(frame, -3, 14, EASE_IO);
   const pill = pop(frame, PILL_AT, 30, 200, 15);
@@ -44,14 +46,15 @@ export const DownloadOutro: React.FC<DownloadOutroProps> = ({
         <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', opacity: 1 - tealOut}}>
           <div
             style={{
-              padding: '30px 60px',
+              padding: pick('30px 60px', '28px 48px'),
               borderRadius: 99,
               background: C.white,
               color: C.tealDeep,
               fontFamily: FONT_DISPLAY,
               fontWeight: 800,
-              fontSize: 76,
+              fontSize: pick(76, 62),
               letterSpacing: '-0.035em',
+              whiteSpace: 'nowrap',
               opacity: Math.min(1, pill * 1.4),
               transform: `scale(${(0.6 + 0.4 * pill) * (1 + Math.sin(frame / 7) * 0.012)}) translateY(${Math.sin(frame / 14) * 4}px)`,
               boxShadow: `0 26px 60px ${rgba('#063B44', 0.3)}`,
@@ -67,9 +70,9 @@ export const DownloadOutro: React.FC<DownloadOutroProps> = ({
       <AbsoluteFill style={{clipPath: `circle(${circle * 75}% at 50% 50%)`}}>
         <AuraGlow
           blobs={[
-            {x: 960, y: 500, r: 470, color: C.teal, alpha: 0.34},
-            {x: 640, y: 720, r: 280, color: C.tealDeep, alpha: 0.12},
-            {x: 1300, y: 380, r: 260, color: C.teal, alpha: 0.18},
+            {x: W / 2, y: H / 2 - 40, r: 470, color: C.teal, alpha: 0.34},
+            {x: pick(640, 280), y: pick(720, 1250), r: 280, color: C.tealDeep, alpha: 0.12},
+            {x: pick(1300, 820), y: pick(380, 650), r: 260, color: C.teal, alpha: 0.18},
           ]}
         />
         <AbsoluteFill style={{alignItems: 'center', justifyContent: 'center'}}>

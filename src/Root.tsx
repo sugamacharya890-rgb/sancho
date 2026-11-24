@@ -44,6 +44,16 @@ export const RemotionRoot: React.FC = () => (
       width={WIDTH}
       height={HEIGHT}
     />
+    {/* 9:16 phone cut (Instagram Reels / Stories / TikTok), music only */}
+    <Composition
+      id="SanchoChasingVertical"
+      component={ChasingVideo}
+      defaultProps={{voiceover: null}}
+      durationInFrames={S.total}
+      fps={FPS}
+      width={1080}
+      height={1920}
+    />
     <Composition
       id="SanchoChasingVideoMusicOnly"
       component={ChasingVideo}
