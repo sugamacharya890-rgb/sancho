@@ -23,6 +23,25 @@ export const RemotionRoot: React.FC = () => (
     />
     {/* Script 02: "Effortless Clarity Without Chasing" — 24s, same identity */}
     <Composition id="SanchoChasingVideo" component={ChasingVideo} durationInFrames={S.total} fps={FPS} width={WIDTH} height={HEIGHT} />
+    {/* same cut with the male voice (am_michael), and a music-only version */}
+    <Composition
+      id="SanchoChasingVideoMaleVO"
+      component={ChasingVideo}
+      defaultProps={{voiceover: 'audio/sancho-chasing-vo-male.mp3'}}
+      durationInFrames={S.total}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
+    <Composition
+      id="SanchoChasingVideoMusicOnly"
+      component={ChasingVideo}
+      defaultProps={{voiceover: null}}
+      durationInFrames={S.total}
+      fps={FPS}
+      width={WIDTH}
+      height={HEIGHT}
+    />
     {/* v1 brief: dark 48s explainer (kept for reference) */}
     <Composition id="SanchoExplainer" component={ExplainerVideo} durationInFrames={TIMELINE.total} fps={FPS} width={WIDTH} height={HEIGHT} />
   </>

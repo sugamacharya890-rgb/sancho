@@ -58,3 +58,29 @@ Optional voiceover: pass `voiceover="audio/your-vo.mp3"` as a prop and the music
 npx remotion studio src/index.ts      # pick "SanchoChasingVideo"
 npx remotion render src/index.ts SanchoChasingVideo out/sancho-chasing.mp4 --codec=h264 --crf=16
 ```
+
+### Voiceover (Script 02)
+
+AI voiceover generated with **Kokoro-82M** (open-weight, Apache-2.0) via `kokoro-onnx`, then loudness-normalized to about -16 LUFS:
+
+| File | Voice | Composition |
+|---|---|---|
+| `public/audio/sancho-chasing-vo.mp3` | `af_heart` (warm female, default) | `SanchoChasingVideo` |
+| `public/audio/sancho-chasing-vo-male.mp3` | `am_michael` (calm male) | `SanchoChasingVideoMaleVO` |
+| none | music only | `SanchoChasingVideoMusicOnly` |
+
+The music ducks about 10.5 dB only while the voice is speaking (spans in `src/chasing/voiceoverTiming.ts`).
+The narration is Script 02's, lightly tightened to fit 24 s at a natural pace; edit `LINES` in `scripts/generate_voiceover.py` to change it.
+
+Regenerate (needs `pip install kokoro-onnx soundfile` and the model from
+[onnx-community/Kokoro-82M-v1.0-ONNX](https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX): `onnx/model.onnx` + `voices/*.bin` in one folder):
+
+```bash
+python scripts/generate_voiceover.py /path/to/kokoro-model --voice af_heart --timing src/chasing/voiceoverTiming.ts
+npx remotion ffmpeg -y -i public/audio/sancho-chasing-vo.wav -af loudnorm=I=-16:TP=-1.5:LRA=7 -ar 44100 -c:a libmp3lame -b:a 192k -f mp3 public/audio/sancho-chasing-vo.mp3
+```
+
+```bash
+npx remotion render src/index.ts SanchoChasingVideo out/sancho-chasing.mp4 --codec=h264 --crf=16
+npx remotion render src/index.ts SanchoChasingVideoMaleVO out/sancho-chasing-male-vo.mp4 --codec=h264 --crf=16
+```
