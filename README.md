@@ -1,51 +1,34 @@
-# Sancho — Motion Graphics Explainer
+# Sancho — Motion Graphics
 
-48-second, 1920×1080, 30fps (1,440 frames) explainer built with Remotion. Creative brief and guardrails: [`brief/sancho_motion_brief.md`](brief/sancho_motion_brief.md).
+Remotion (React + TypeScript) videos for Sancho. Brief & guardrails: [`brief/sancho_motion_brief.md`](brief/sancho_motion_brief.md).
 
-## Timeline
+| Composition | Spec | Source |
+|---|---|---|
+| **`SanchoPromo`** (main) | 22s · 1920×1080 · 30fps · 660 frames · light, reference-matched style | `src/MainVideo.tsx`, `src/promo/` |
+| `SanchoExplainer` | 48s · dark editorial explainer (v1 brief, kept for reference) | `src/ExplainerVideo.tsx`, `src/scenes/` |
+
+## SanchoPromo timeline (120 bpm — 1 beat = 15 frames)
 
 | Scene | Frames | Time | Beat |
 |---|---|---|---|
-| `Scene1Overload` | 0–360 | 0:00–0:12 | Remote overload: time-zone cue, care details piling up in amber |
-| `Scene2FollowThrough` | 360–780 | 0:12–0:26 | Cards morph onto the self-advancing teal continuity track |
-| `Scene3Visibility` | 768–1200 | 0:26–0:40 | Chasing thread dissolves into one calm visit summary |
-| `Scene4Outro` | 1188–1440 | 0:40–0:48 | Brand lockup → app glimpse + download CTA |
+| `HookAndBrand` | 0–135 | 0:00–0:04.5 | "Caring for parents from abroad?" → overload chips → **Meet [Sancho]** (logo hit on the beat) |
+| `FollowThroughUI` | 135–330 | 0:04.5–0:11 | Phone rises on teal aura with "Steady follow-through" / "From afar"; items auto-complete; camera push, brand ribbon sweep, floating "This week, handled" card |
+| `VisibilityFeed` | 330–525 | 0:11–0:17.5 | Unanswered chasing messages → "Clear updates. Zero chasing." stacked feed, depth-of-field focus, pointer taps the visit update |
+| `BrandWipeOutro` | 525–660 | 0:17.5–0:22 | Teal brand wipe, "Stay on top of care." + "Peace of mind from afar" pill, circle wipe to the centered lockup + CTA |
 
-Scenes 3 and 4 start 12 frames early so the hand-offs crossfade.
-
-## Structure
-
-```
-src/
-  theme/        colors, easing, timeline, fonts (bundled via @fontsource)
-  primitives/   AmbientGrid, FadeSlideText, ContinuityTrack, StatusCard, SanchoMark, Icons
-  scenes/       Scene1–4 + shared card data (careItems.ts)
-  MainVideo.tsx composes the scenes + score
-scripts/compose_score.py   original, license-free score synthesized to the frame timeline
-public/audio/sancho-score.mp3
-```
+Primitives (`src/promo/primitives/`): `AuraGlow`, `KineticText`, `SanchoLogo`, `PhoneFrame`, `PointerCursor`, `BrandRibbon`, `Check`.
 
 ## Commands
 
 ```bash
 npm install
-npm run studio          # live preview
-npm run render          # -> out/sancho-explainer.mp4
+npx remotion studio src/index.ts      # preview (pick "SanchoPromo")
+npx remotion render src/index.ts SanchoPromo out/sancho-promo.mp4 --codec=h264 --crf=16
 ```
 
-Explicit render command:
+Background music is an original track synthesized by `scripts/compose_promo_bgm.py` (license-free, hits locked to scene beats, ≈ -14 LUFS). Regenerate after timing changes with `npm run bgm` (needs Python + numpy).
 
-```bash
-npx remotion render src/index.ts SanchoExplainer out/sancho-explainer.mp4 --codec=h264 --crf=16
-```
+## Swap before release
 
-Regenerate the score after timing changes (requires numpy):
-
-```bash
-python3 scripts/compose_score.py && npx remotion ffmpeg -y -i public/audio/sancho-score.wav -c:a libmp3lame -b:a 256k -f mp3 public/audio/sancho-score.mp3 && rm public/audio/sancho-score.wav
-```
-
-## To swap before release
-
-- `SanchoMark.tsx` is a placeholder mark — replace with the official logo.
-- `Scene4Outro` CTA copy is a prop (`ctaLabel`, `ctaSub`): set the real store availability / URL.
+- **Logo:** replace `public/brand/sancho-mark.svg` (placeholder) with the official mark — every scene picks it up. If the official file already includes the wordmark, pass `showWord={false}` to `SanchoLogo`.
+- **CTA:** `BrandWipeOutro` takes a `cta` prop (default "Download the Sancho app").

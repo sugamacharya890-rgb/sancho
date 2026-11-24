@@ -5,7 +5,9 @@
   "description": "Sancho 48s motion graphics explainer (Remotion)",
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render SanchoExplainer out/sancho-explainer.mp4 --codec=h264 --crf=16",
+    "render": "remotion render src/index.ts SanchoPromo out/sancho-promo.mp4 --codec=h264 --crf=16",
+    "render:explainer": "remotion render src/index.ts SanchoExplainer out/sancho-explainer.mp4 --codec=h264 --crf=16",
+    "bgm": "python3 scripts/compose_promo_bgm.py && remotion ffmpeg -y -i public/audio/sancho-promo-bgm.wav -c:a libmp3lame -b:a 256k -f mp3 public/audio/sancho-promo-bgm.mp3 && rm public/audio/sancho-promo-bgm.wav",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

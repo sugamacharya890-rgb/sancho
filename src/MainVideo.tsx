@@ -1,39 +1,34 @@
 import React from 'react';
-import {AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame} from 'remotion';
-import {AmbientGrid} from './primitives/AmbientGrid';
-import {Scene1Overload} from './scenes/Scene1Overload';
-import {Scene2FollowThrough} from './scenes/Scene2FollowThrough';
-import {Scene3Visibility} from './scenes/Scene3Visibility';
-import {Scene4Outro} from './scenes/Scene4Outro';
-import {TIMELINE} from './theme/theme';
+import {AbsoluteFill, Audio, Sequence, interpolate, staticFile} from 'remotion';
+import {BrandWipeOutro} from './promo/scenes/BrandWipeOutro';
+import {FollowThroughUI} from './promo/scenes/FollowThroughUI';
+import {HookAndBrand} from './promo/scenes/HookAndBrand';
+import {VisibilityFeed} from './promo/scenes/VisibilityFeed';
+import {T} from './promo/theme';
 import './theme/fonts';
 
-export const MainVideo: React.FC = () => {
-  const frame = useCurrentFrame();
-  // atmosphere: warm friction through the overload, resolving to calm teal with Sancho
-  // ...briefly re-warms during the chasing thread in Scene 3, then settles for good
-  const warmth = interpolate(frame, [0, 90, 300, 360, 430, 790, 830, 940, 990], [0.35, 0.75, 1, 1, 0, 0, 0.55, 0.55, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
+/** Overlap so the next scene's transition plays over the outgoing one. */
+const TAIL = 16;
 
-  return (
-    <AbsoluteFill>
-      <AmbientGrid warmth={warmth} />
-      <Sequence from={TIMELINE.s1.from} durationInFrames={TIMELINE.s1.duration} name="Scene 1 · Overload">
-        <Scene1Overload />
-      </Sequence>
-      <Sequence from={TIMELINE.s2.from} durationInFrames={TIMELINE.s2.duration} name="Scene 2 · Follow-through">
-        <Scene2FollowThrough />
-      </Sequence>
-      <Sequence from={TIMELINE.s3.from} durationInFrames={TIMELINE.s3.duration} name="Scene 3 · Visibility">
-        <Scene3Visibility />
-      </Sequence>
-      <Sequence from={TIMELINE.s4.from} durationInFrames={TIMELINE.s4.duration} name="Scene 4 · Outro">
-        <Scene4Outro />
-      </Sequence>
-      {/* Original score composed for this cut (scripts/compose_score.py), synced to the timeline */}
-      <Audio src={staticFile('audio/sancho-score.mp3')} />
-    </AbsoluteFill>
-  );
-};
+export const MainVideo: React.FC = () => (
+  <AbsoluteFill style={{background: '#F8FAFC'}}>
+    <Sequence from={T.hook.from} durationInFrames={T.hook.duration} name="1 · Hook & brand">
+      <HookAndBrand />
+    </Sequence>
+    <Sequence from={T.follow.from} durationInFrames={T.follow.duration} name="2 · Follow-through UI">
+      <FollowThroughUI />
+    </Sequence>
+    {/* stays mounted under the teal wipe until it fully covers the frame */}
+    <Sequence from={T.feed.from} durationInFrames={T.feed.duration + TAIL} name="3 · Visibility feed">
+      <VisibilityFeed />
+    </Sequence>
+    <Sequence from={T.outro.from} durationInFrames={T.outro.duration} name="4 · Brand wipe & outro">
+      <BrandWipeOutro />
+    </Sequence>
+    {/* Original 120 bpm score (scripts/compose_promo_bgm.py), hits locked to scene beats */}
+    <Audio
+      src={staticFile('audio/sancho-promo-bgm.mp3')}
+      volume={(f) => interpolate(f, [0, 4, T.total - 24, T.total], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}
+    />
+  </AbsoluteFill>
+);

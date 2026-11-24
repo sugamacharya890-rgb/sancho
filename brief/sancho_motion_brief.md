@@ -1,15 +1,15 @@
 # Sancho — Motion Graphics Creative Brief & Brand Guardrails
 
 ## 1. Brand Overview
+
 * **App Name:** Sancho
 * **Target Audience:** Diaspora children living abroad who are managing or monitoring the healthcare of aging parents back home.
-* **Core Emotional Arc:** Moving from **remote care-management overload and emotional exhaustion** to **calm relief, dependable follow-through, and effortless visibility**.
-
----
+* **Core Emotional Arc:** Moving from **remote care-management overload and repeated chasing** to **effortless, dependable follow-through and calm visibility**.
 
 ## 2. Strategic Propositions & Guardrails
 
 ### Proposition 1: Ongoing Management & Follow-Through
+
 * **Customer Situation:** As a parent's healthcare grows more complex, the diaspora child faces an overwhelming volume of appointments, medications, tests, instructions, providers, and follow-ups to track from abroad. Important items risk getting delayed or slipping through the cracks.
 * **Core Problem:** Remote care-management overload.
 * **Sancho Proposition:** Sancho provides a professional system that stays on top of the parent's ongoing care and follow-through so the diaspora child does not have to personally manage every detail.
@@ -20,50 +20,40 @@
   * **DO NOT** lead with internal product mechanisms or software jargon (such as "care plans," "task tracking," or "medical records") unless briefly used as visual proof of the larger outcome.
 
 ### Proposition 2: Visibility Without Chasing
-* **Customer Situation:** The diaspora child repeatedly calls, messages, asks follow-up questions, interprets incomplete answers, and chases parents or relatives just to know what happened at a doctor's visit, whether medications changed, or what happens next.
+
+* **Customer Situation:** The diaspora child repeatedly calls, messages, asks follow-up questions, interprets incomplete answers, or chases parents or others just to know what happened at a doctor's visit, whether medication changed, or what happens next.
 * **Core Problem:** Repeatedly extracting health updates from Mom or Dad is frustrating and emotionally taxing on the relationship.
 * **Sancho Proposition:** Sancho keeps the diaspora family appropriately informed through a professional care process, so the child understands what is happening without constantly chasing parents or others for answers.
 * **Strategic Hypothesis:** Alleviating the emotional and relational friction of chasing parents for health details serves as a powerful hook.
 
----
+## 3. Visual Direction & Color Palette (Reference-Matched UI Motion Style)
 
-## 3. Visual Direction & Color Palette
-
-* **Tone & Aesthetic:** Calm, trustworthy, human-centered, clean editorial motion design (avoid sterile hospital clichés or frantic tech-startup gimmicks).
+* **Visual Aesthetic:** Crisp, bright off-white editorial UI motion (`#F8FAFC` / `#FFFFFF`) with soft diffused radial aura glows (`filter: blur(60px)`), clean rounded UI cards, shallow depth-of-field blur on unfocused background items, tactile pointer-cursor highlights, sweeping brand ribbons, and bold geometric color wipes.
 * **Color System:**
-  * **Primary Canvas (Deep Calm Slate):** `#0F1E2E` (gives high contrast and focus) or `#F7F9FB` (warm clinical off-white for light cards/scenes).
-  * **Trust & Continuity Accent (Calm Teal):** `#2EC4B6` (represents steady ongoing management and structured care).
-  * **Secondary System Anchor (Deep Teal-Blue):** `#1F7A8C` (used for subtle gradients, containers, and flow lines).
-  * **Human Friction / Alert Highlight (Warm Amber):** `#FFB703` or `#E07A5F` (used sparingly to highlight overload/chasing friction before resolving into calm teal).
-  * **Typography & Surfaces:** Crisp White `#FFFFFF`, Muted Cool Gray `#94A3B8` for secondary labels, Dark Slate `#1E293B` for elevated card surfaces.
-* **Typography:** Clean geometric sans-serif (`Inter`, `Plus Jakarta Sans`, or system UI sans) with generous line height, clear hierarchy, and max 8–12 words per on-screen headline.
-
----
+  * **Primary Light Canvas:** Crisp Off-White (`#F8FAFC`) and Pure White (`#FFFFFF`) for cards and clean reveals.
+  * **Primary Brand & System Teal:** Calm Clinical Teal (`#1F7A8C`) and Bright Trust Teal (`#2EC4B6`) for ambient aura glows, the sweeping brand ribbon, active UI highlights, and full-screen brand wipes.
+  * **High-Contrast Typography:** Deep Slate Ink (`#0F172A`) for bold headlines and card titles; Muted Slate (`#64748B`) for secondary subtext.
+  * **Human Friction / Alert Accent:** Warm Coral-Amber (`#E07A5F` / `#FFB703`) used sparingly to highlight overload/chasing friction before resolving cleanly into Sancho teal.
+* **Typography:** Bold geometric sans-serif (`Inter` or `Plus Jakarta Sans`) with tight headline tracking, high contrast against the light canvas, and punchy 3–9 word beats.
 
 ## 4. Motion Choreography & Technical Specs
 
-* **Format:** 16:9 Widescreen (`1920x1080`), `30fps` (or `60fps` if rendering smooth UI transitions), Duration: `45–50 seconds` (`1350–1500 frames`).
-* **Motion Principles:**
-  * **Easing:** Smooth cubic-bezier ease-out (`[0.16, 1, 0.3, 1]`) for arrivals; avoid bouncy/cartoonish springs or abrupt linear cuts.
-  * **Staggering:** Stagger related UI/status elements by `4–6 frames` so viewers can scan naturally.
-  * **Transitions:** Use directional wipes, soft cross-dissolves, and shared-element morphs (e.g., scattered chaos morphing into a calm continuous track).
-  * **Readability Holds:** Hold key headlines and proposition statements for at least `2.5–3.5 seconds` with subtle ambient micro-motion (gentle breathing scale or slow progress line).
-* **Sound / Caption Sync:** Leave clean visual breathing room in the lower third or center-left for concise subtitles/narration beats.
+* **Format:** 16:9 Widescreen (`1920x1080`), `30fps` (or `60fps` for ultra-smooth UI motion), Duration: `20–24 seconds` (`600–720 frames` at 30fps) for tight, high-retention pacing.
+* **Signature Reference Motion Beats:**
+  * **Kinetic Type Hook & Brand Lockup:** Snappy word-by-word or phrase reveal on a light glowing canvas, transitioning cleanly into `"Meet [Sancho Logo]"` with a spring-settled icon reveal.
+  * **Centered Mobile / UI Frame + Side Callouts:** A centered smartphone mockup rising smoothly onto a soft teal ambient glow, flanked by crisp two-word value anchors (`"Ongoing care"` | `"Zero chasing"`).
+  * **Sweeping Brand Ribbon Transition:** A thick, smooth SVG curved ribbon in Sancho Teal sweeping diagonally across the frame behind a floating care-timeline card.
+  * **Depth-of-Field Card Focus & Pointer Highlight:** Stacked rounded UI cards where non-active rows smoothly blur (`filter: blur(4px)`, `opacity: 0.45`) while the active card pops forward (`scale: 1.04`) with a crisp pointer cursor click/tap animation.
+  * **Full-Bleed Brand Wipe & Circle Reveal:** A bold full-screen Sancho Teal frame with a centered pill CTA/takeaway (`"Stay on top of care"`), wiping cleanly via an expanding white circle cutout into the centered Sancho logo lockup.
 
----
+## 5. Scene-by-Scene Blueprint (22 Seconds / 660 Frames @ 30fps)
 
-## 5. Scene-by-Scene Blueprint (48 Seconds / 1440 Frames @ 30fps)
-
-1. **Scene 1: The Remote Overload Hook (`0:00 – 0:10` | Frames `0–300`)**
-   * *Visual:* Subtle world/time-zone cue connecting abroad to home. Floating cards representing appointments, prescriptions, lab tests, and doctor instructions stack up rapidly with gentle amber warning pulses—showing details starting to drift or overlap.
-   * *On-Screen Copy:* *"Caring for aging parents from abroad means holding too many details at once."*
-2. **Scene 2: Proposition 1 — Ongoing Management & Follow-Through (`0:10 – 0:26` | Frames `300–780`)**
-   * *Visual:* The **Sancho** mark enters smoothly. The scattered cards align onto a continuous, steady teal flow line that progresses forward smoothly on its own—showing follow-through happening reliably without manual micromanagement.
-   * *On-Screen Copy:* *"Sancho stays on top of ongoing care and follow-through—so you don't have to manage every detail alone."*
-   * *Guardrail Reminder:* Show the *outcome* of steady continuity and relief—no "Care Manager" avatar pitch or cluttered software dashboards.
-3. **Scene 3: Proposition 2 — Visibility Without Chasing (`0:26 – 0:41` | Frames `780–1230`)**
-   * *Visual:* Briefly show fragmented message bubbles (*"Did you go to the clinic?"*, *"Did the dosage change?"*) fading away, replaced by a single, calm, clear Sancho care summary card arriving effortlessly (visit outcome, medication clarity, next step).
-   * *On-Screen Copy:* *"Know what happened at every visit and what comes next—without chasing Mom or Dad for answers."*
-4. **Scene 4: Resolution & Brand Outro (`0:41 – 0:48` | Frames `1230–1440`)**
-   * *Visual:* Calm, balanced composition with the **Sancho** logo centered, soft ambient teal glow, and reassuring closing line.
-   * *On-Screen Copy:* *"Sancho. Dependable care follow-through. Peace of mind from afar."*
+1. **Scene 1: Punchy Hook & Brand Reveal (`0:00 – 0:04.5` | Frames `0–135`)**
+   * *Visual:* Crisp light background with a soft radial teal glow. Bold dark typography snaps in rhythmically: *"Caring for parents from abroad?"* -> sweeps smoothly into *"Meet [Sancho Logo]"*.
+2. **Scene 2: Proposition 1 — Ongoing Management & Follow-Through (`0:04.5 – 0:11` | Frames `135–330`)**
+   * *Visual:* Centered phone frame rises onto a glowing teal aura, flanked by *"Steady follow-through"* on the left and *"From afar"* on the right. Camera pushes in as a sweeping curved Sancho Teal ribbon glides behind a floating card showing ongoing appointments, prescriptions, and lab follow-ups moving forward automatically without manual micromanagement.
+   * *Guardrail Check:* Emphasize dependable system continuity and relief from operational overload—no "dedicated Care Manager" framing or cluttered internal dashboards.
+3. **Scene 3: Proposition 2 — Visibility Without Chasing (`0:11 – 0:17.5` | Frames `330–525`)**
+   * *Visual:* Clean stacked UI feed on a soft glowing white canvas. Top/bottom background rows gently blur out (`depth-of-field`) while the center card pops crisp with a pointer cursor highlight: *"Cardiology visit complete • Medication unchanged • Next checkup scheduled"*—demonstrating effortless clarity without repeatedly calling or chasing Mom or Dad.
+4. **Scene 4: Bold Brand Wipe & Logo Lockup (`0:17.5 – 0:22` | Frames `525–660`)**
+   * *Visual:* Snappy transition to a solid Sancho Teal screen featuring a clean white pill badge (*"Peace of mind from afar"*), followed by a smooth expanding white circle wipe that resolves onto the centered **Sancho** logo mark.
