@@ -34,7 +34,7 @@ export const RemotionRoot: React.FC = () => (
       width={WIDTH}
       height={HEIGHT}
     />
-    {/* Nepali voiceover — expressive female voice (Piper ne_NP google, speaker 9) */}
+    {/* Nepali voiceover — AI4Bharat Indic Parler-TTS, female speaker "Amrita", per-line emotion */}
     <Composition
       id="SanchoChasingVideoNepaliVO"
       component={ChasingVideo}

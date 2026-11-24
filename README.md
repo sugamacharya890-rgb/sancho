@@ -87,23 +87,29 @@ npx remotion render src/index.ts SanchoChasingVideoMaleVO out/sancho-chasing-mal
 
 ### Nepali voiceover (नेपाली)
 
-`SanchoChasingVideoNepaliVO` uses `public/audio/sancho-chasing-vo-ne.mp3`: an expressive female voice synthesized offline with **Piper**
-(`ne_NP-google-medium`, speaker 9, dataset OpenSLR 43 CC BY-SA 4.0). Each line has its own emotion (weary → bright reveal → warm → confident → calm → energetic CTA) via pace, expressiveness and formant-preserving pitch, followed by a crisp vocal chain (presence/air EQ, de-ess, compression). Narration:
+`SanchoChasingVideoNepaliVO` uses `public/audio/sancho-chasing-vo-ne.mp3`, generated with
+**AI4Bharat Indic Parler-TTS** (Apache-2.0, gated — accept the terms + Hugging Face read token), female speaker *Amrita*.
+Each line has its own delivery description (tired → bright reveal → warm → confident → calm → energetic).
+3 takes per line are transcribed back with Whisper (faster-whisper `medium`, Nepali); the clearest take that fits its scene is kept,
+then a gentle clarity chain (low-cut, presence, light compression) is applied.
 
-| Time | Nepali | English source |
+| Time | Nepali | Meaning |
 |---|---|---|
-| 0:00 | आमाबुबा नेपालमा हुनुहुन्छ भने, डाक्टरले के भन्नुभयो भनेर थाहा पाउन जासुसी गरेझैं गर्नु नपरोस्। | …finding out what the doctor said shouldn't feel like detective work. |
+| 0:00 | टाढा बस्दा, आमाबुबाको खबर बुझ्न जासुसी गर्नु नपरोस्। | Living far away, understanding your parents' news shouldn't take detective work. |
 | 0:05.6 | प्रस्तुत छ, सन्चो। | Meet Sancho. |
-| 0:07 | आमाबुबालाई बारम्बार सोधिरहनु नपरी, व्यावसायिक हेरचाह प्रक्रियामार्फत सधैं जानकारीमा रहनुहोस्। | Stay informed through a professional care process, without chasing your parents for answers. |
-| 0:12.6 | हरेक अपडेटको पछाडि, सन्चोको प्रणालीले निरन्तर हेरचाहको पूरा ख्याल राख्छ, ताकि केही पनि नछुटोस्। | Behind every update, Sancho's system stays on top of ongoing care, so nothing important slips. |
+| 0:07 | अब बारम्बार सोधिरहनु पर्दैन। हरेक जानकारी, सधैं स्पष्ट। | No more asking again and again. Every update, always clear. |
+| 0:12.6 | हरेक अप्डेटको पछाडि, सन्चोको प्रणालीले हेरचाहलाई निरन्तर अघि बढाइरहन्छ। | Behind every update, Sancho's system keeps care moving forward. |
 | 0:18.7 | जहाँबाट पनि, ढुक्क भएर जानकारीमा रहनुहोस्। | Stay informed with calm confidence, from anywhere. |
-| 0:21.7 | आजै सन्चो डाउनलोड गर्नुहोस्। | Download Sancho now. |
+| 0:21.7 | आजै सन्चो डाउनलोड गर्नुहोस्। | Download Sancho today. |
 
-Regenerate (needs `pip install "piper-tts>=1.5" soundfile` and the voice from
-[rhasspy/piper-voices](https://huggingface.co/rhasspy/piper-voices/tree/main/ne/ne_NP/google/medium)):
+Regenerate (CPU is fine; ~10–15 min):
 
 ```bash
-python scripts/generate_voiceover_ne.py /path/to/piper-voices-dir --voice google --speaker 9 --timing src/chasing/voiceoverTimingNe.ts
+pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+pip install parler-tts faster-whisper soundfile "protobuf>=5.28"
+HF_TOKEN=<your read token> python scripts/generate_voiceover_ne_parler.py
 npx remotion ffmpeg -y -i public/audio/sancho-chasing-vo-ne.wav -af loudnorm=I=-16:TP=-1.5:LRA=9 -ar 44100 -c:a libmp3lame -b:a 192k -f mp3 public/audio/sancho-chasing-vo-ne.mp3
 npx remotion render src/index.ts SanchoChasingVideoNepaliVO out/sancho-chasing-nepali-vo.mp4 --codec=h264 --crf=16
 ```
+
+The earlier Piper-based generator (`scripts/generate_voiceover_ne.py`) is kept for reference.
