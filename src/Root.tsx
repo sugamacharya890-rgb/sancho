@@ -1,5 +1,7 @@
 import React from 'react';
 import {Composition} from 'remotion';
+import {ChasingVideo} from './chasing/ChasingVideo';
+import {S} from './chasing/timeline';
 import {ExplainerVideo} from './ExplainerVideo';
 import {MainVideo} from './MainVideo';
 import {T} from './promo/theme';
@@ -19,6 +21,8 @@ export const RemotionRoot: React.FC = () => (
       width={WIDTH}
       height={HEIGHT}
     />
+    {/* Script 02: "Effortless Clarity Without Chasing" — 24s, same identity */}
+    <Composition id="SanchoChasingVideo" component={ChasingVideo} durationInFrames={S.total} fps={FPS} width={WIDTH} height={HEIGHT} />
     {/* v1 brief: dark 48s explainer (kept for reference) */}
     <Composition id="SanchoExplainer" component={ExplainerVideo} durationInFrames={TIMELINE.total} fps={FPS} width={WIDTH} height={HEIGHT} />
   </>

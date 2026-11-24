@@ -5,6 +5,7 @@ Remotion (React + TypeScript) videos for Sancho. Brief & guardrails: [`brief/san
 | Composition | Spec | Source |
 |---|---|---|
 | **`SanchoPromo`** (main) | 22s · 1920×1080 · 30fps · 660 frames · light, reference-matched style | `src/MainVideo.tsx`, `src/promo/` |
+| **`SanchoChasingVideo`** | 24s · 720 frames · Script 02 "Effortless Clarity Without Chasing", same identity | `src/chasing/` |
 | `SanchoExplainer` | 48s · dark editorial explainer (v1 brief, kept for reference) | `src/ExplainerVideo.tsx`, `src/scenes/` |
 
 ## SanchoPromo timeline (120 bpm — 1 beat = 15 frames)
@@ -40,3 +41,20 @@ To make B the default, change the `bgm` default in `src/MainVideo.tsx`. Regenera
 
 - **Logo:** replace `public/brand/sancho-mark.svg` (placeholder) with the official mark — every scene picks it up. If the official file already includes the wordmark, pass `showWord={false}` to `SanchoLogo`.
 - **CTA:** `BrandWipeOutro` takes a `cta` prop (default "Download the Sancho app").
+
+## SanchoChasingVideo (Script 02 — `brief/sancho_script_02_chasing.md`)
+
+| Scene | Frames | Time | Beat |
+|---|---|---|---|
+| `ChasingLoop` | 0–165 | 0:00–0:05.5 | "Still texting to find out what happened?" → "Chasing updates gets exhausting." over a thread of unanswered, coral-pulsing questions |
+| `MeetVisibility` | 165–375 | 0:05.5–0:12.5 | "Meet [Sancho]" → lockup docks as header, stacked feed with depth-of-field, cursor taps "Visit summary shared • Next step clear", "Clarity without chasing." |
+| `FollowThroughBehind` | 375–555 | 0:12.5–0:18.5 | "Steady follow-through behind the scenes." ribbon sweep behind a timeline card that keeps moving; "Nothing slips" / "No micromanaging" |
+| `DownloadOutro` | 555–720 | 0:18.5–0:24 | Teal wipe + "Calm care from anywhere." pill → circle wipe to logo lockup + **Download Now** |
+
+Reuses `src/promo/theme.ts` and `src/promo/primitives/*` so palette, type and motion are identical. Soundtrack: `scripts/compose_chasing_bgm.py` (uses `scripts/sancho_audio.py`), every cue pinned to a scene frame.
+Optional voiceover: pass `voiceover="audio/your-vo.mp3"` as a prop and the music ducks under it.
+
+```bash
+npx remotion studio src/index.ts      # pick "SanchoChasingVideo"
+npx remotion render src/index.ts SanchoChasingVideo out/sancho-chasing.mp4 --codec=h264 --crf=16
+```
