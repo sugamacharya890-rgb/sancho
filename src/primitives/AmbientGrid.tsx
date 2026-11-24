@@ -16,8 +16,8 @@ type Props = {
 export const AmbientGrid: React.FC<Props> = ({warmth, glow = 1}) => {
   const frame = useCurrentFrame();
   const spacing = 48;
-  const dx = (frame * 0.18) % spacing;
-  const dy = (frame * 0.09) % spacing;
+  const dx = (frame * 0.3) % spacing;
+  const dy = (frame * 0.15) % spacing;
 
   const orbA = mixHex(COLORS.tealBlue, COLORS.amber, warmth * 0.85);
   const orbB = mixHex(COLORS.teal, COLORS.coral, warmth * 0.8);

@@ -21,8 +21,9 @@ export const HEIGHT = 1080;
 export const TIMELINE = {
   s1: {from: 0, duration: 360}, // 0:00 – 0:12  remote overload
   s2: {from: 360, duration: 420}, // 0:12 – 0:26  ongoing follow-through
-  s3: {from: 780, duration: 420}, // 0:26 – 0:40  visibility without chasing
-  s4: {from: 1200, duration: 240}, // 0:40 – 0:48  outro
+  // S3/S4 start 12 frames early so each hand-off is a true crossfade (no empty dip)
+  s3: {from: 768, duration: 432}, // 0:25.6 – 0:40  visibility without chasing
+  s4: {from: 1188, duration: 252}, // 0:39.6 – 0:48  outro
   total: 1440,
 } as const;
 

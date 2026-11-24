@@ -65,9 +65,17 @@ export const Scene2FollowThrough: React.FC = () => {
 
   // a calm teal sweep washes away the amber at the hand-off
   const sweep = progress(frame, 0, 48, EASE_IN_OUT);
+  // directional exit: the whole system glides left and softens into Scene 3
+  const exit = progress(frame, 392, 28, EASE_IN_OUT);
 
   return (
-    <AbsoluteFill>
+    <AbsoluteFill
+      style={{
+        opacity: 1 - exit,
+        transform: `translateX(${-exit * 90}px)`,
+        filter: exit > 0 ? `blur(${exit * 6}px)` : undefined,
+      }}
+    >
       <div
         style={{
           position: 'absolute',

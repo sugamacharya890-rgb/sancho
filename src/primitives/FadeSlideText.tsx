@@ -79,8 +79,8 @@ export const FadeSlideText: React.FC<Props> = ({
 
   const exit = exitAt === undefined ? 0 : progress(frame, exitAt, 16, EASE_IN_OUT);
   const held = Math.max(0, frame - start);
-  const breathe = 1 + Math.sin(held / 40) * 0.006 + Math.min(held, 300) * 0.00003;
-  const drift = Math.sin(held / 55) * 2;
+  const breathe = 1 + Math.sin(held / 34) * 0.008 + Math.min(held, 300) * 0.00004;
+  const drift = Math.sin(held / 45) * 3;
 
   let wordIndex = 0;
   return (

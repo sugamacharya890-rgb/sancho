@@ -5,11 +5,10 @@ import {FPS, HEIGHT, TIMELINE, WIDTH} from './theme/theme';
 
 export const RemotionRoot: React.FC = () => (
   <>
-    {/* Step 2 review cut: Scenes 1–2 (0:00–0:26). Full 1440-frame comp lands in Step 3. */}
     <Composition
       id="SanchoExplainer"
       component={MainVideo}
-      durationInFrames={TIMELINE.s3.from}
+      durationInFrames={TIMELINE.total}
       fps={FPS}
       width={WIDTH}
       height={HEIGHT}
