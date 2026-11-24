@@ -10,7 +10,12 @@ import './theme/fonts';
 /** Overlap so the next scene's transition plays over the outgoing one. */
 const TAIL = 16;
 
-export const MainVideo: React.FC = () => (
+export type MainVideoProps = {
+  /** Background track in public/ — A: audio/sancho-promo-bgm.mp3, B: audio/sancho-promo-bgm-b.mp3 */
+  bgm?: string;
+};
+
+export const MainVideo: React.FC<MainVideoProps> = ({bgm = 'audio/sancho-promo-bgm.mp3'}) => (
   <AbsoluteFill style={{background: '#F8FAFC'}}>
     <Sequence from={T.hook.from} durationInFrames={T.hook.duration} name="1 · Hook & brand">
       <HookAndBrand />
@@ -25,9 +30,9 @@ export const MainVideo: React.FC = () => (
     <Sequence from={T.outro.from} durationInFrames={T.outro.duration} name="4 · Brand wipe & outro">
       <BrandWipeOutro />
     </Sequence>
-    {/* Original 120 bpm score (scripts/compose_promo_bgm.py), hits locked to scene beats */}
+    {/* Original 120 bpm tracks (scripts/compose_promo_bgm*.py), hits locked to scene beats */}
     <Audio
-      src={staticFile('audio/sancho-promo-bgm.mp3')}
+      src={staticFile(bgm)}
       volume={(f) => interpolate(f, [0, 4, T.total - 24, T.total], [0, 1, 1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'})}
     />
   </AbsoluteFill>

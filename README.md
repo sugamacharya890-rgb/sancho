@@ -26,7 +26,15 @@ npx remotion studio src/index.ts      # preview (pick "SanchoPromo")
 npx remotion render src/index.ts SanchoPromo out/sancho-promo.mp4 --codec=h264 --crf=16
 ```
 
-Background music is an original track synthesized by `scripts/compose_promo_bgm.py` (license-free, hits locked to scene beats, ≈ -14 LUFS). Regenerate after timing changes with `npm run bgm` (needs Python + numpy).
+Background music: two original, license-free tracks synthesized in code, both on the same 120 bpm grid with hits locked to the scene beats, loudness-matched at about -14 LUFS:
+
+| Track | Feel | Script | Composition |
+|---|---|---|---|
+| A | punchy pop: four-on-the-floor, plucks, claps | `scripts/compose_promo_bgm.py` | `SanchoPromo` |
+| B | warm, uplifting: marimba + piano, half-time groove, finger snaps | `scripts/compose_promo_bgm_b.py` | `SanchoPromoBgmB` |
+
+Render track B: `npx remotion render src/index.ts SanchoPromoBgmB out/sancho-promo-bgm-b.mp4 --codec=h264 --crf=16`.
+To make B the default, change the `bgm` default in `src/MainVideo.tsx`. Regenerate A after timing changes with `npm run bgm` (needs Python + numpy).
 
 ## Swap before release
 
