@@ -3,8 +3,10 @@ Clear, expressive Nepali female voiceover for SanchoChasingVideo using AI4Bharat
 (https://huggingface.co/ai4bharat/indic-parler-tts, Apache-2.0, gated: accept the terms + HF read token).
 
 Each line gets a plain-language delivery description (emotion, pace, clarity). Several takes are
-generated per line and the one that best fits its scene window is kept; small timing fixes use
-formant-preserving rubberband time-stretch (never more than ±8%).
+generated per line; each is transcribed back with Whisper (faster-whisper, Nepali) and scored on
+intelligibility (character error rate vs. the script) plus fit to its scene window. The clearest take
+that fits is kept; small timing fixes use formant-preserving rubberband time-stretch (max 8%).
+A gentle clarity chain (low-cut, presence, light compression) is applied at the end.
 
 Setup:  pip install torch --index-url https://download.pytorch.org/whl/cpu ; pip install parler-tts soundfile
 Run:    HF_TOKEN=<token or proxy-injected> python scripts/generate_voiceover_ne_parler.py
@@ -18,6 +20,8 @@ import tempfile
 import numpy as np
 import soundfile as sf
 import torch
+import torchaudio
+from faster_whisper import WhisperModel
 from parler_tts import ParlerTTSForConditionalGeneration
 from transformers import AutoTokenizer
 
@@ -44,6 +48,34 @@ LINES = [
 ]
 
 
+CLARITY_CHAIN = (
+    'highpass=f=80,'
+    'equalizer=f=250:t=q:w=1.2:g=-1.5,'
+    'equalizer=f=3200:t=q:w=1.0:g=2.5,'
+    'equalizer=f=9000:t=q:w=0.9:g=1.5,'
+    'acompressor=threshold=-20dB:ratio=2.5:attack=5:release=100:makeup=1.5,'
+    'alimiter=limit=0.89'
+)
+
+
+def norm(t):
+    """Normalize Devanagari so spelling variants of the same sound compare equal."""
+    t = t.replace('ं', 'न').replace('्', '').replace('ँ', '')
+    return ''.join(ch for ch in t if '\u0900' <= ch <= '\u097F' and ch not in '।॥')
+
+
+def cer(ref, hyp):
+    r, h = norm(ref), norm(hyp)
+    d = list(range(len(h) + 1))
+    for i in range(1, len(r) + 1):
+        prev, d[0] = d[0], i
+        for j in range(1, len(h) + 1):
+            cur = d[j]
+            d[j] = min(d[j] + 1, d[j - 1] + 1, prev + (r[i - 1] != h[j - 1]))
+            prev = cur
+    return d[len(h)] / max(1, len(r))
+
+
 def stretch(x, sr, ratio, tmp):
     """ratio < 1 shortens. Formant-preserving, pitch unchanged."""
     a, b = os.path.join(tmp, 's_in.wav'), os.path.join(tmp, 's_out.wav')
@@ -59,7 +91,8 @@ def trim(x, sr, thresh=0.01):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--takes', type=int, default=3)
+    ap.add_argument('--takes', type=int, default=4)
+    ap.add_argument('--asr', default='medium', help='faster-whisper model used to score clarity')
     ap.add_argument('--out', default=os.path.join(os.path.dirname(__file__), '..', 'public', 'audio', 'sancho-chasing-vo-ne.wav'))
     ap.add_argument('--timing', default=os.path.join(os.path.dirname(__file__), '..', 'src', 'chasing', 'voiceoverTimingNe.ts'))
     a = ap.parse_args()
@@ -69,6 +102,12 @@ def main():
     tok = AutoTokenizer.from_pretrained(MODEL)
     desc_tok = AutoTokenizer.from_pretrained(model.config.text_encoder._name_or_path)
     sr = model.config.sampling_rate
+    asr = WhisperModel(a.asr, device='cpu', compute_type='int8')
+
+    def transcribe(x):
+        x16 = torchaudio.functional.resample(torch.from_numpy(x), sr, 16000).numpy()
+        segs, _ = asr.transcribe(x16, language='ne', beam_size=5)
+        return ' '.join(s.text for s in segs).strip()
 
     track = np.zeros(int(DUR * sr), dtype=np.float32)
     spans = []
@@ -85,9 +124,11 @@ def main():
                                        prompt_input_ids=p.input_ids, prompt_attention_mask=p.attention_mask)
                 x = trim(g.cpu().numpy().squeeze().astype(np.float32), sr)
                 length = len(x) / sr
-                # prefer takes that fill ~80% of the window without exceeding it
-                score = abs(length - 0.82 * window) + (10 if length > window * 1.08 else 0)
-                print(f'  {text[:24]}… take {take}: {length:.2f}s (window {window:.2f}s)')
+                heard = transcribe(x)
+                err = cer(text, heard)
+                # clarity first; then prefer takes that fill ~80% of the window without exceeding it
+                score = err * 4 + abs(length - 0.82 * window) * 0.3 + (10 if length > window * 1.08 else 0)
+                print(f'  take {take}: {length:5.2f}s (window {window:.2f}s)  CER {err:.2f}  heard: {heard}')
                 if best is None or score < best[0]:
                     best = (score, x)
             x = best[1]
@@ -98,8 +139,11 @@ def main():
             seg = x[: len(track) - i0]
             track[i0 : i0 + len(seg)] += seg
             spans.append((round(start, 3), round(start + len(x) / sr, 3)))
-            print(f'{start:6.2f}s  {len(x) / sr:5.2f}s  ends {start + len(x) / sr:6.2f}s')
-    sf.write(a.out, track, sr, subtype='PCM_16')
+            print(f'=> {start:6.2f}s  {len(x) / sr:5.2f}s  ends {start + len(x) / sr:6.2f}s  |  {text}')
+    with tempfile.TemporaryDirectory() as tmp:
+        raw = os.path.join(tmp, 'raw.wav')
+        sf.write(raw, track, sr)
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-af', CLARITY_CHAIN, '-c:a', 'pcm_s16le', a.out], check=True)
     with open(a.timing, 'w') as f:
         f.write('// Generated by scripts/generate_voiceover_ne_parler.py — Nepali speech spans in seconds, used to duck the music.\n')
         f.write('export const VO_SPANS_NE: [number, number][] = [\n')
