@@ -5,7 +5,7 @@ import {S} from './chasing/timeline';
 import {VO_SPANS_NE} from './chasing/voiceoverTimingNe';
 import {ExplainerVideo} from './ExplainerVideo';
 import {MainVideo} from './MainVideo';
-import {R as RAKSHYA, R2 as RAKSHYA2, RakshyaReel01Origin, RakshyaReel02HelpAndCommunity} from './rakshya';
+import {R as RAKSHYA, R2 as RAKSHYA2, R3 as RAKSHYA3, RakshyaReel01Origin, RakshyaReel02HelpAndCommunity, RakshyaReel03ToolsAndVision} from './rakshya';
 import {T} from './promo/theme';
 import {FPS, HEIGHT, TIMELINE, WIDTH} from './theme/theme';
 
@@ -82,6 +82,17 @@ export const RemotionRoot: React.FC = () => (
       component={RakshyaReel02HelpAndCommunity}
       defaultProps={{music: null}}
       durationInFrames={RAKSHYA2.total}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+    {/* Rakshya · Reel 03 — Everyday Protection & Tools Built for Nepal · 24s Instagram Reel */}
+    <Composition id="RakshyaReel03ToolsAndVision" component={RakshyaReel03ToolsAndVision} durationInFrames={RAKSHYA3.total} fps={30} width={1080} height={1920} />
+    <Composition
+      id="RakshyaReel03ToolsAndVisionSilent"
+      component={RakshyaReel03ToolsAndVision}
+      defaultProps={{music: null}}
+      durationInFrames={RAKSHYA3.total}
       fps={30}
       width={1080}
       height={1920}

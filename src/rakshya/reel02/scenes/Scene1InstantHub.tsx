@@ -7,7 +7,7 @@ import {Dot, Pill} from '../../primitives/Pill';
 import {SerifReveal} from '../../primitives/SerifReveal';
 import {C, ease, mix, rgba} from '../../theme';
 import {CUES, R2, sp} from '../timeline';
-import {SceneShell} from './SceneShell';
+import {SceneShell} from '../../primitives/SceneShell';
 
 export const HELPLINES_FULL = [
   {number: '100', label: 'Nepal Police'},

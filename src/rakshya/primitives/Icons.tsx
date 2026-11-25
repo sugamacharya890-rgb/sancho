@@ -113,3 +113,43 @@ export const MaskIcon: React.FC<IconProps> = (p) => (
     <path d="M9.5 8.3h5" />
   </Svg>
 );
+
+export const MoonIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z" />
+  </Svg>
+);
+
+export const SchoolIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M3.5 9.5L12 5l8.5 4.5L12 14z" />
+    <path d="M7 11.5v4.5c1.4 1.3 3 2 5 2s3.6-.7 5-2v-4.5M20.5 9.5v5" />
+  </Svg>
+);
+
+export const PinIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z" />
+    <circle cx="12" cy="10" r="2.4" />
+  </Svg>
+);
+
+export const ClipIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <rect x="7" y="3.5" width="10" height="17" rx="5" />
+    <path d="M10 8.5v7a2 2 0 0 0 4 0V7" />
+  </Svg>
+);
+
+export const SoundIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="2.5" />
+    <path d="M8 8a5.6 5.6 0 0 0 0 8M16 8a5.6 5.6 0 0 1 0 8M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14" />
+  </Svg>
+);
+
+export const BookIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5zM12 6.5v13" />
+  </Svg>
+);

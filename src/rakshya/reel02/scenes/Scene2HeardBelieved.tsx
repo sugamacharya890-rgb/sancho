@@ -7,7 +7,7 @@ import {Pill} from '../../primitives/Pill';
 import {SerifReveal} from '../../primitives/SerifReveal';
 import {C, ease, mix, rgba} from '../../theme';
 import {CUES, R2, sp} from '../timeline';
-import {SceneShell} from './SceneShell';
+import {SceneShell} from '../../primitives/SceneShell';
 
 const at = (g: number) => g - R2.heard.from;
 /** An illustrative draft being typed — the viewer's own words, not a published testimonial. */

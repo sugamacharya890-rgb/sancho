@@ -144,3 +144,13 @@ ffmpeg -y -i out/sancho-chasing-vertical.mp4 -vf "scale=in_range=full:out_range=
 - Code: `src/rakshya/reel02/` (reuses Reel 01's theme, fonts and primitives). `timeline.ts` holds the scene ranges and the `CUES` table of on-screen taps.
 - Music: `npm run bgm:rakshya02` → original 82 BPM marimba + pad + brushed groove (`scripts/compose_rakshya_reel02_bgm.py`). Its cue list mirrors `CUES`, so keep the two in sync if you retime a tap.
 - Render: `npm run render:rakshya02` → `out/rakshya-reel02-help-and-community.mp4`.
+
+## Rakshya · Reel 03 — Everyday Protection & Tools Built for Nepal
+
+24s vertical Reel (1080×1920, 30fps). Brief: `brief/rakshya_reel_03_tools_and_vision.md`.
+
+- Compositions: `RakshyaReel03ToolsAndVision` and `RakshyaReel03ToolsAndVisionSilent` (prop `handle` sets the Instagram handle in the closing frame).
+- Code: `src/rakshya/reel03/`. `timeline.ts` puts every reveal on the 88 BPM beat grid via `beatFrame(n)`; `CUES3` lists the hits.
+- Music: `npm run bgm:rakshya03` → original 88 BPM plucks + pad + building rhythm (`scripts/compose_rakshya_reel03_bgm.py`, cue beats mirror `CUES3`).
+- Render: `npm run render:rakshya03` → `out/rakshya-reel03-tools-and-vision.mp4`.
+- `SceneShell` (safe-area centering + scene enter/exit) now lives in `src/rakshya/primitives/` and is shared by Reels 02 and 03.

@@ -1,6 +1,6 @@
 import React from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
-import {HEIGHT, SAFE, ease, exitAt, mix} from '../../theme';
+import {HEIGHT, SAFE, ease, exitAt, mix} from '../theme';
 
 /** Centers a scene inside the Reels safe area and handles the calm rise-in / lift-out. */
 export const SceneShell: React.FC<{duration: number; children: React.ReactNode; fadeIn?: boolean; align?: 'stretch' | 'center'}> = ({

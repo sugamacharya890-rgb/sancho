@@ -7,7 +7,7 @@ import {Pill} from '../../primitives/Pill';
 import {SerifReveal} from '../../primitives/SerifReveal';
 import {C, EASE_IO, ease, mix, rgba} from '../../theme';
 import {CUES, R2, sp} from '../timeline';
-import {SceneShell} from './SceneShell';
+import {SceneShell} from '../../primitives/SceneShell';
 
 const at = (g: number) => g - R2.discreet.from;
 const MOMENTS = ['Daily commutes', 'School & college', 'Online', 'At work', 'At home', 'Speaking up together'];

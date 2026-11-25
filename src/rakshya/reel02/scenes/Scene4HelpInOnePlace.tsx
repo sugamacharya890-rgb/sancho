@@ -7,7 +7,7 @@ import {RakshyaLockup} from '../../primitives/RakshyaLockup';
 import {SerifReveal} from '../../primitives/SerifReveal';
 import {C, ease, mix, rgba} from '../../theme';
 import {R2, sp} from '../timeline';
-import {SceneShell} from './SceneShell';
+import {SceneShell} from '../../primitives/SceneShell';
 
 export type Scene4HelpInOnePlaceProps = {url?: string; shareNote?: string};
 
