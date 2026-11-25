@@ -125,3 +125,13 @@ npx remotion render src/index.ts SanchoChasingVertical out/sancho-chasing-vertic
 # Instagram-safe finish: limited-range yuv420p, BT.709 tags, fast start (needs ffmpeg with libx264)
 ffmpeg -y -i out/sancho-chasing-vertical.mp4 -vf "scale=in_range=full:out_range=limited,format=yuv420p" -c:v libx264 -preset slow -crf 17 -profile:v high -level 4.1 -color_range tv -colorspace bt709 -color_primaries bt709 -color_trc bt709 -c:a copy -movflags +faststart out/sancho-chasing-vertical-ig.mp4
 ```
+
+## Rakshya (रक्षा) · Reel 01 — Origin & Why Silence Isn't Safety
+
+24s vertical Instagram Reel (1080×1920, 30fps, 720 frames) promoting rakshyanp.com. Brief: `brief/rakshya_reel_01_origin.md`.
+
+- Composition: `RakshyaReel01Origin` (with music) and `RakshyaReel01OriginSilent` (no audio, to add a track in Instagram).
+- Code: `src/rakshya/` — `theme.ts` (blush/crimson palette, beat timeline, Reels safe area), `fonts.ts` (Instrument Serif + Noto Serif Devanagari + Inter, bundled), `primitives/`, and one component per beat in `scenes/`.
+- Music: `npm run bgm:rakshya` re-synthesizes the original, license-free 80 BPM piano + felt pad (`scripts/compose_rakshya_bgm.py` → `public/audio/rakshya-reel01-bgm.mp3`). Hook points are listed in `src/rakshya/RakshyaReel01Origin.tsx`.
+- Render: `npm run render:rakshya` → `out/rakshya-reel01-origin.mp4`.
+- The `र` brand tile in `RakshyaLockup.tsx` is a stand-in; swap in the official logo file if there is one.

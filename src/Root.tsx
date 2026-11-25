@@ -5,6 +5,7 @@ import {S} from './chasing/timeline';
 import {VO_SPANS_NE} from './chasing/voiceoverTimingNe';
 import {ExplainerVideo} from './ExplainerVideo';
 import {MainVideo} from './MainVideo';
+import {R as RAKSHYA, RakshyaReel01Origin} from './rakshya';
 import {T} from './promo/theme';
 import {FPS, HEIGHT, TIMELINE, WIDTH} from './theme/theme';
 
@@ -62,6 +63,17 @@ export const RemotionRoot: React.FC = () => (
       fps={FPS}
       width={WIDTH}
       height={HEIGHT}
+    />
+    {/* Rakshya (रक्षा) · Reel 01 — Origin & Why Silence Isn't Safety · 24s Instagram Reel */}
+    <Composition id="RakshyaReel01Origin" component={RakshyaReel01Origin} durationInFrames={RAKSHYA.total} fps={30} width={1080} height={1920} />
+    <Composition
+      id="RakshyaReel01OriginSilent"
+      component={RakshyaReel01Origin}
+      defaultProps={{music: null}}
+      durationInFrames={RAKSHYA.total}
+      fps={30}
+      width={1080}
+      height={1920}
     />
     {/* v1 brief: dark 48s explainer (kept for reference) */}
     <Composition id="SanchoExplainer" component={ExplainerVideo} durationInFrames={TIMELINE.total} fps={FPS} width={WIDTH} height={HEIGHT} />
