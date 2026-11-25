@@ -67,3 +67,49 @@ export const ArrowIcon: React.FC<IconProps> = (p) => (
     <path d="M5 12h14M13 6l6 6-6 6" />
   </Svg>
 );
+
+export const LockIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <rect x="5" y="10.5" width="14" height="10" rx="2.5" />
+    <path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" />
+  </Svg>
+);
+
+export const CheckIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M5.5 12.5l4 4 9-9" />
+  </Svg>
+);
+
+export const BookmarkIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M7 3.5h10v17l-5-3.6-5 3.6z" />
+  </Svg>
+);
+
+export const SendIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M20.5 3.5L10 14M20.5 3.5l-6.5 17-4-6.5-6.5-4z" />
+  </Svg>
+);
+
+export const ExitIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M14 4.5h4.5v15H14M10 8l-4 4 4 4M6 12h9" />
+  </Svg>
+);
+
+export const EyeOffIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <path d="M3.5 12s3-6 8.5-6c1.6 0 3 .5 4.2 1.2M20.5 12s-3 6-8.5 6c-1.6 0-3-.5-4.2-1.2" />
+    <path d="M4.5 4.5l15 15" />
+  </Svg>
+);
+
+export const MaskIcon: React.FC<IconProps> = (p) => (
+  <Svg {...p}>
+    <circle cx="12" cy="8.5" r="3.5" />
+    <path d="M5 20a7 7 0 0 1 14 0" />
+    <path d="M9.5 8.3h5" />
+  </Svg>
+);

@@ -135,3 +135,12 @@ ffmpeg -y -i out/sancho-chasing-vertical.mp4 -vf "scale=in_range=full:out_range=
 - Music: `npm run bgm:rakshya` re-synthesizes the original, license-free 80 BPM piano + felt pad (`scripts/compose_rakshya_bgm.py` → `public/audio/rakshya-reel01-bgm.mp3`). Hook points are listed in `src/rakshya/RakshyaReel01Origin.tsx`.
 - Render: `npm run render:rakshya` → `out/rakshya-reel01-origin.mp4`.
 - The `र` brand tile in `RakshyaLockup.tsx` is a stand-in; swap in the official logo file if there is one.
+
+## Rakshya · Reel 02 — One-Tap Help & Anonymous Community
+
+24s vertical Reel (1080×1920, 30fps). Brief: `brief/rakshya_reel_02_help_and_community.md`.
+
+- Compositions: `RakshyaReel02HelpAndCommunity` and `RakshyaReel02HelpAndCommunitySilent`.
+- Code: `src/rakshya/reel02/` (reuses Reel 01's theme, fonts and primitives). `timeline.ts` holds the scene ranges and the `CUES` table of on-screen taps.
+- Music: `npm run bgm:rakshya02` → original 82 BPM marimba + pad + brushed groove (`scripts/compose_rakshya_reel02_bgm.py`). Its cue list mirrors `CUES`, so keep the two in sync if you retime a tap.
+- Render: `npm run render:rakshya02` → `out/rakshya-reel02-help-and-community.mp4`.

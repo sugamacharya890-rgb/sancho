@@ -5,7 +5,7 @@ import {S} from './chasing/timeline';
 import {VO_SPANS_NE} from './chasing/voiceoverTimingNe';
 import {ExplainerVideo} from './ExplainerVideo';
 import {MainVideo} from './MainVideo';
-import {R as RAKSHYA, RakshyaReel01Origin} from './rakshya';
+import {R as RAKSHYA, R2 as RAKSHYA2, RakshyaReel01Origin, RakshyaReel02HelpAndCommunity} from './rakshya';
 import {T} from './promo/theme';
 import {FPS, HEIGHT, TIMELINE, WIDTH} from './theme/theme';
 
@@ -71,6 +71,17 @@ export const RemotionRoot: React.FC = () => (
       component={RakshyaReel01Origin}
       defaultProps={{music: null}}
       durationInFrames={RAKSHYA.total}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+    {/* Rakshya · Reel 02 — One-Tap Help & Anonymous Community · 24s Instagram Reel */}
+    <Composition id="RakshyaReel02HelpAndCommunity" component={RakshyaReel02HelpAndCommunity} durationInFrames={RAKSHYA2.total} fps={30} width={1080} height={1920} />
+    <Composition
+      id="RakshyaReel02HelpAndCommunitySilent"
+      component={RakshyaReel02HelpAndCommunity}
+      defaultProps={{music: null}}
+      durationInFrames={RAKSHYA2.total}
       fps={30}
       width={1080}
       height={1920}
